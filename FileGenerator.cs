@@ -11,6 +11,7 @@ namespace FAR_Review_File_Generator
         public FormFileGenerator()
         {
             InitializeComponent();
+            labelSelectedCount.Text = "";
             dateTimePicker.Value = DateTime.Now.AddDays(-1);
         }
 
@@ -29,6 +30,8 @@ namespace FAR_Review_File_Generator
                     currentRow++;
                 }
             }
+
+            labelSelectedCount.Text = dataGridView.Rows.Count - 1 + " records";
         }
 
         private void btnTemplateBrowse_Click(object sender, EventArgs e)
@@ -119,6 +122,16 @@ namespace FAR_Review_File_Generator
                     sw.Write(docText);
                 }
             }
+        }
+
+        private void dataGridView_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            labelSelectedCount.Text = dataGridView.Rows.Count - 1 + " records";
+        }
+
+        private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            labelSelectedCount.Text = dataGridView.Rows.Count - 1 + " records";
         }
     }
 }
