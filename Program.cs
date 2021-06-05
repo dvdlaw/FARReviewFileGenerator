@@ -17,7 +17,7 @@ namespace FAR_Review_File_Generator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FileGenerator1());
+            Application.Run(new FormFileGenerator());
         }
 
         

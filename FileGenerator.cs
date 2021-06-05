@@ -1,15 +1,17 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Packaging;
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace FAR_Review_File_Generator
 {
-    public partial class FileGenerator1 : Form
+    public partial class FormFileGenerator : Form
     {
-        public FileGenerator1()
+        public FormFileGenerator()
         {
             InitializeComponent();
+            dateTimePicker.Value = DateTime.Now.AddDays(-1);
         }
 
         private void btnPaste_Click(object sender, EventArgs e)
@@ -64,14 +66,24 @@ namespace FAR_Review_File_Generator
                 {
                     try
                     {
-                        string customerName = dataGridView.Rows[counter].Cells[0].Value.ToString().Trim();
+                        string customerName = dataGridView.Rows[counter].Cells[0].Value.ToString()
+                                                    .Replace("/","")
+                                                    .Replace(@"\", "")
+                                                    .Trim();
+                        string customerID = dataGridView.Rows[counter].Cells[1].Value.ToString().Trim().Insert(6,"-").Insert(9, "-");
+                        string customerOnboardingID = dataGridView.Rows[counter].Cells[2].Value.ToString().Trim();
+                        string applicationDate = dateTimePicker.Value.ToString("yyyy-MM-dd");
 
                         string sourceFile = textBoxTemplateDir.Text;
                         string fileName = Path.GetFileName(sourceFile);
-                        string destinationFile =
-                            Path.Combine(textBoxDestinationDir.Text, fileName.Replace(".docx", "") + customerName + ".docx");
-                                        
+                        string destinationFile = Path.Combine(textBoxDestinationDir.Text, dateTimePicker.Value.ToString("yyyyMMdd") + fileName.Replace(".docx", "") + customerName + ".docx");
+                                       
+                        //1. Copy file
                         File.Copy(sourceFile, destinationFile, false);
+
+                        //2. Replace details into file
+                        SearchAndReplace(destinationFile, customerName, customerID, customerOnboardingID, applicationDate);
+
                         successCount++;
                     }
                     catch(Exception ex)
@@ -85,6 +97,28 @@ namespace FAR_Review_File_Generator
             
 
             MessageBox.Show("Done! " + successCount + " file(s) copied. " + failureCount + " failures.");
+        }
+
+        public static void SearchAndReplace(string document, string customerName, string customerID, string customerOnboardingID, string applicationDate)
+        {
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(document, true))
+            {
+                string docText = null;
+                using (StreamReader sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
+                {
+                    docText = sr.ReadToEnd();
+                }
+
+                docText = docText.Replace("ApplicantName", customerName);
+                docText = docText.Replace("MyKadNo", customerID);
+                docText = docText.Replace("ApplicationDate", applicationDate);
+                docText = docText.Replace("OnboardingID", customerOnboardingID);
+
+                using (StreamWriter sw = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
+                {
+                    sw.Write(docText);
+                }
+            }
         }
     }
 }
