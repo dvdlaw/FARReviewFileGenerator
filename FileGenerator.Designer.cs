@@ -34,6 +34,10 @@ namespace FAR_Review_File_Generator
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxTemplateDir = new System.Windows.Forms.TextBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CustomerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IC = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OnboardingID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Generate = new System.Windows.Forms.Button();
             this.btnPaste = new System.Windows.Forms.Button();
             this.btnBrowseTemplate = new System.Windows.Forms.Button();
@@ -42,10 +46,6 @@ namespace FAR_Review_File_Generator
             this.labelBuildVersion = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.labelSelectedCount = new System.Windows.Forms.Label();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CustomerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IC = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OnboardingID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelErrors = new System.Windows.Forms.Label();
             this.buttonValidate = new System.Windows.Forms.Button();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
@@ -102,6 +102,34 @@ namespace FAR_Review_File_Generator
             this.dataGridView.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView_RowsAdded);
             this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_RowsRemoved);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
+            // 
+            // Date
+            // 
+            this.Date.HeaderText = "Date";
+            this.Date.MinimumWidth = 12;
+            this.Date.Name = "Date";
+            this.Date.Width = 250;
+            // 
+            // CustomerName
+            // 
+            this.CustomerName.HeaderText = "Name";
+            this.CustomerName.MinimumWidth = 12;
+            this.CustomerName.Name = "CustomerName";
+            this.CustomerName.Width = 175;
+            // 
+            // IC
+            // 
+            this.IC.HeaderText = "IC";
+            this.IC.MinimumWidth = 12;
+            this.IC.Name = "IC";
+            this.IC.Width = 250;
+            // 
+            // OnboardingID
+            // 
+            this.OnboardingID.HeaderText = "Onboarding ID";
+            this.OnboardingID.MinimumWidth = 12;
+            this.OnboardingID.Name = "OnboardingID";
+            this.OnboardingID.Width = 170;
             // 
             // Generate
             // 
@@ -174,36 +202,11 @@ namespace FAR_Review_File_Generator
             this.labelSelectedCount.TabIndex = 1;
             this.labelSelectedCount.Text = "0 records";
             // 
-            // Date
-            // 
-            this.Date.HeaderText = "Date";
-            this.Date.MinimumWidth = 12;
-            this.Date.Name = "Date";
-            // 
-            // CustomerName
-            // 
-            this.CustomerName.HeaderText = "Name";
-            this.CustomerName.MinimumWidth = 12;
-            this.CustomerName.Name = "CustomerName";
-            this.CustomerName.Width = 175;
-            // 
-            // IC
-            // 
-            this.IC.HeaderText = "IC";
-            this.IC.MinimumWidth = 12;
-            this.IC.Name = "IC";
-            // 
-            // OnboardingID
-            // 
-            this.OnboardingID.HeaderText = "Onboarding ID";
-            this.OnboardingID.MinimumWidth = 12;
-            this.OnboardingID.Name = "OnboardingID";
-            this.OnboardingID.Width = 170;
-            // 
             // labelErrors
             // 
             this.labelErrors.AutoSize = true;
-            this.labelErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelErrors.ForeColor = System.Drawing.Color.SteelBlue;
             this.labelErrors.Location = new System.Drawing.Point(247, 388);
             this.labelErrors.Name = "labelErrors";
             this.labelErrors.Size = new System.Drawing.Size(210, 32);
