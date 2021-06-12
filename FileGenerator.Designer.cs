@@ -41,20 +41,23 @@ namespace FAR_Review_File_Generator
             this.buttonBrowseDestination = new System.Windows.Forms.Button();
             this.labelBuildVersion = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.labelSelectedCount = new System.Windows.Forms.Label();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CustomerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OnboardingID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.labelSelectedCount = new System.Windows.Forms.Label();
+            this.labelErrors = new System.Windows.Forms.Label();
+            this.buttonValidate = new System.Windows.Forms.Button();
+            this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBoxDestinationDir
             // 
             this.textBoxDestinationDir.Location = new System.Drawing.Point(295, 215);
             this.textBoxDestinationDir.Name = "textBoxDestinationDir";
-            this.textBoxDestinationDir.Size = new System.Drawing.Size(697, 38);
+            this.textBoxDestinationDir.Size = new System.Drawing.Size(949, 38);
             this.textBoxDestinationDir.TabIndex = 3;
             // 
             // label1
@@ -79,13 +82,14 @@ namespace FAR_Review_File_Generator
             // 
             this.textBoxTemplateDir.Location = new System.Drawing.Point(293, 140);
             this.textBoxTemplateDir.Name = "textBoxTemplateDir";
-            this.textBoxTemplateDir.Size = new System.Drawing.Size(699, 38);
+            this.textBoxTemplateDir.Size = new System.Drawing.Size(951, 38);
             this.textBoxTemplateDir.TabIndex = 1;
             // 
             // dataGridView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Date,
             this.CustomerName,
             this.IC,
             this.OnboardingID});
@@ -93,16 +97,17 @@ namespace FAR_Review_File_Generator
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersWidth = 30;
             this.dataGridView.RowTemplate.Height = 40;
-            this.dataGridView.Size = new System.Drawing.Size(1199, 238);
+            this.dataGridView.Size = new System.Drawing.Size(1444, 780);
             this.dataGridView.TabIndex = 6;
             this.dataGridView.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView_RowsAdded);
             this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_RowsRemoved);
+            this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
             // 
             // Generate
             // 
             this.Generate.BackColor = System.Drawing.SystemColors.Control;
             this.Generate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Generate.Location = new System.Drawing.Point(1021, 349);
+            this.Generate.Location = new System.Drawing.Point(1266, 349);
             this.Generate.Name = "Generate";
             this.Generate.Size = new System.Drawing.Size(223, 71);
             this.Generate.TabIndex = 8;
@@ -112,7 +117,7 @@ namespace FAR_Review_File_Generator
             // 
             // btnPaste
             // 
-            this.btnPaste.Location = new System.Drawing.Point(780, 349);
+            this.btnPaste.Location = new System.Drawing.Point(792, 349);
             this.btnPaste.Name = "btnPaste";
             this.btnPaste.Size = new System.Drawing.Size(223, 71);
             this.btnPaste.TabIndex = 7;
@@ -122,7 +127,7 @@ namespace FAR_Review_File_Generator
             // 
             // btnBrowseTemplate
             // 
-            this.btnBrowseTemplate.Location = new System.Drawing.Point(1021, 135);
+            this.btnBrowseTemplate.Location = new System.Drawing.Point(1266, 138);
             this.btnBrowseTemplate.Name = "btnBrowseTemplate";
             this.btnBrowseTemplate.Size = new System.Drawing.Size(223, 54);
             this.btnBrowseTemplate.TabIndex = 2;
@@ -132,7 +137,7 @@ namespace FAR_Review_File_Generator
             // 
             // buttonBrowseDestination
             // 
-            this.buttonBrowseDestination.Location = new System.Drawing.Point(1021, 211);
+            this.buttonBrowseDestination.Location = new System.Drawing.Point(1266, 215);
             this.buttonBrowseDestination.Name = "buttonBrowseDestination";
             this.buttonBrowseDestination.Size = new System.Drawing.Size(223, 54);
             this.buttonBrowseDestination.TabIndex = 4;
@@ -143,11 +148,11 @@ namespace FAR_Review_File_Generator
             // labelBuildVersion
             // 
             this.labelBuildVersion.AutoSize = true;
-            this.labelBuildVersion.Location = new System.Drawing.Point(1117, 54);
+            this.labelBuildVersion.Location = new System.Drawing.Point(1362, 54);
             this.labelBuildVersion.Name = "labelBuildVersion";
             this.labelBuildVersion.Size = new System.Drawing.Size(127, 32);
             this.labelBuildVersion.TabIndex = 1;
-            this.labelBuildVersion.Text = "Build 1.2";
+            this.labelBuildVersion.Text = "Build 1.3";
             // 
             // label3
             // 
@@ -159,22 +164,21 @@ namespace FAR_Review_File_Generator
             this.label3.TabIndex = 1;
             this.label3.Text = "FAR Review File Generator";
             // 
-            // label4
+            // labelSelectedCount
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(41, 293);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(224, 32);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Application Date";
+            this.labelSelectedCount.AutoSize = true;
+            this.labelSelectedCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSelectedCount.Location = new System.Drawing.Point(39, 388);
+            this.labelSelectedCount.Name = "labelSelectedCount";
+            this.labelSelectedCount.Size = new System.Drawing.Size(132, 32);
+            this.labelSelectedCount.TabIndex = 1;
+            this.labelSelectedCount.Text = "0 records";
             // 
-            // dateTimePicker
+            // Date
             // 
-            this.dateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker.Location = new System.Drawing.Point(295, 287);
-            this.dateTimePicker.Name = "dateTimePicker";
-            this.dateTimePicker.Size = new System.Drawing.Size(239, 38);
-            this.dateTimePicker.TabIndex = 5;
+            this.Date.HeaderText = "Date";
+            this.Date.MinimumWidth = 12;
+            this.Date.Name = "Date";
             // 
             // CustomerName
             // 
@@ -194,27 +198,44 @@ namespace FAR_Review_File_Generator
             this.OnboardingID.HeaderText = "Onboarding ID";
             this.OnboardingID.MinimumWidth = 12;
             this.OnboardingID.Name = "OnboardingID";
-            this.OnboardingID.Width = 130;
+            this.OnboardingID.Width = 170;
             // 
-            // labelSelectedCount
+            // labelErrors
             // 
-            this.labelSelectedCount.AutoSize = true;
-            this.labelSelectedCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSelectedCount.Location = new System.Drawing.Point(39, 388);
-            this.labelSelectedCount.Name = "labelSelectedCount";
-            this.labelSelectedCount.Size = new System.Drawing.Size(220, 53);
-            this.labelSelectedCount.TabIndex = 1;
-            this.labelSelectedCount.Text = "0 records";
+            this.labelErrors.AutoSize = true;
+            this.labelErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelErrors.Location = new System.Drawing.Point(247, 388);
+            this.labelErrors.Name = "labelErrors";
+            this.labelErrors.Size = new System.Drawing.Size(210, 32);
+            this.labelErrors.TabIndex = 1;
+            this.labelErrors.Text = "No errors found";
+            this.labelErrors.Visible = false;
+            this.labelErrors.Click += new System.EventHandler(this.labelErrors_Click);
+            // 
+            // buttonValidate
+            // 
+            this.buttonValidate.Location = new System.Drawing.Point(1029, 349);
+            this.buttonValidate.Name = "buttonValidate";
+            this.buttonValidate.Size = new System.Drawing.Size(223, 71);
+            this.buttonValidate.TabIndex = 7;
+            this.buttonValidate.Text = "Validate";
+            this.buttonValidate.UseVisualStyleBackColor = true;
+            this.buttonValidate.Click += new System.EventHandler(this.btnValidate_Click);
+            // 
+            // fileSystemWatcher1
+            // 
+            this.fileSystemWatcher1.EnableRaisingEvents = true;
+            this.fileSystemWatcher1.SynchronizingObject = this;
             // 
             // FormFileGenerator
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1290, 750);
-            this.Controls.Add(this.dateTimePicker);
+            this.ClientSize = new System.Drawing.Size(1554, 1970);
             this.Controls.Add(this.buttonBrowseDestination);
             this.Controls.Add(this.btnBrowseTemplate);
+            this.Controls.Add(this.buttonValidate);
             this.Controls.Add(this.btnPaste);
             this.Controls.Add(this.Generate);
             this.Controls.Add(this.dataGridView);
@@ -222,13 +243,15 @@ namespace FAR_Review_File_Generator
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelBuildVersion);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.labelErrors);
             this.Controls.Add(this.labelSelectedCount);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxDestinationDir);
             this.Name = "FormFileGenerator";
+            this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 50);
             this.Text = "FAR Review File Generator";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -249,12 +272,14 @@ namespace FAR_Review_File_Generator
         private System.Windows.Forms.Button buttonBrowseDestination;
         private System.Windows.Forms.Label labelBuildVersion;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DateTimePicker dateTimePicker;
+        private System.Windows.Forms.Label labelSelectedCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn CustomerName;
         private System.Windows.Forms.DataGridViewTextBoxColumn IC;
         private System.Windows.Forms.DataGridViewTextBoxColumn OnboardingID;
-        private System.Windows.Forms.Label labelSelectedCount;
+        private System.Windows.Forms.Label labelErrors;
+        private System.Windows.Forms.Button buttonValidate;
+        private System.IO.FileSystemWatcher fileSystemWatcher1;
     }
 }
 

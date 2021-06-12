@@ -50,16 +50,26 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorObject.cs" />
     <Compile Include="FileGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FileGenerator.Designer.cs">
       <DependentUpon>FileGenerator.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormErrorList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormErrorList.Designer.cs">
+      <DependentUpon>FormErrorList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FileGenerator.resx">
       <DependentUpon>FileGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormErrorList.resx">
+      <DependentUpon>FormErrorList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
